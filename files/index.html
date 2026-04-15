@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>ResQ — Disaster Management & Emergency Response System</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet"/>
+<style>
+:root{--bg:#0a0c0f;--s:#111318;--s2:#181c23;--bd:#1e2430;--ac:#e8341a;--ac2:#ff6b35;--wn:#f5a623;--ok:#22c55e;--inf:#38bdf8;--tx:#e8eaf0;--mu:#6b7385}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--bg);color:var(--tx);font-family:'DM Sans',sans-serif;min-height:100vh;overflow-x:hidden}
+#tk{background:var(--ac);padding:6px 0;overflow:hidden;white-space:nowrap;font-family:'JetBrains Mono',monospace;font-size:12px}
+#tki{display:inline-block;animation:tk 28s linear infinite;padding-left:100vw}
+@keyframes tk{0%{transform:translateX(0)}100%{transform:translateX(-200%)}}
+header{background:var(--s);border-bottom:2px solid var(--ac);display:flex;align-items:center;justify-content:space-between;padding:0 2rem;height:64px;position:sticky;top:0;z-index:100}
+.logo{font-family:'Bebas Neue',sans-serif;font-size:2.1rem;letter-spacing:.12em;color:var(--ac);display:flex;align-items:center;gap:.6rem}
+.logo em{color:var(--tx);font-style:normal}
+.pd{width:10px;height:10px;background:var(--ac);border-radius:50%;animation:pd 1.5s infinite}
+@keyframes pd{0%,100%{box-shadow:0 0 0 0 rgba(232,52,26,.7)}60%{box-shadow:0 0 0 9px rgba(232,52,26,0)}}
+#ubar{display:flex;align-items:center;gap:.75rem;font-size:.875rem}
+.btn{cursor:pointer;border:none;border-radius:6px;padding:.5rem 1.25rem;font-family:'DM Sans',sans-serif;font-size:.875rem;font-weight:500;transition:all .18s}
+.bp{background:var(--ac);color:#fff}.bp:hover{background:var(--ac2)}
+.bo{background:transparent;color:var(--tx);border:1px solid var(--bd)}.bo:hover{border-color:var(--ac);color:var(--ac)}
+.bs{padding:.3rem .85rem;font-size:.78rem}
+.bd2{background:rgba(127,29,29,.6);color:#fca5a5;border:1px solid rgba(239,68,68,.3)}.bd2:hover{background:#991b1b}
+nav{background:var(--s);border-bottom:1px solid var(--bd);display:flex;overflow-x:auto;scrollbar-width:none}
+nav::-webkit-scrollbar{display:none}
+nav button{background:none;border:none;color:var(--mu);font-family:'DM Sans',sans-serif;font-size:.85rem;font-weight:500;padding:.85rem 1.4rem;cursor:pointer;white-space:nowrap;border-bottom:3px solid transparent;transition:all .18s}
+nav button:hover{color:var(--tx)}
+nav button.ac{color:var(--ac);border-bottom-color:var(--ac)}
+main{padding:1.75rem 2rem;max-width:1440px;margin:0 auto}
+.pg{display:none}
+.pg.on{display:block}
+#ap.on{display:flex!important;align-items:center;justify-content:center;min-height:82vh}
+.abox{background:var(--s);border:1px solid var(--bd);border-radius:14px;padding:2.5rem;width:420px;max-width:100%}
+.abox h2{font-family:'Bebas Neue',sans-serif;font-size:2rem;letter-spacing:.09em;margin-bottom:.25rem}
+.abox>p{color:var(--mu);font-size:.84rem;margin-bottom:1.75rem}
+.tsw{display:flex;background:var(--bg);border-radius:8px;padding:4px;margin-bottom:1.5rem}
+.tsw button{flex:1;background:none;border:none;padding:.45rem;border-radius:6px;cursor:pointer;color:var(--mu);font-family:'DM Sans',sans-serif;font-weight:500;font-size:.9rem;transition:all .18s}
+.tsw button.ac{background:var(--ac);color:#fff}
+.fg{margin-bottom:1.1rem}
+.fg label{display:block;font-size:.74rem;color:var(--mu);margin-bottom:.35rem;text-transform:uppercase;letter-spacing:.06em}
+.fg input,.fg select,.fg textarea{width:100%;background:var(--bg);border:1px solid var(--bd);border-radius:7px;padding:.62rem .9rem;color:var(--tx);font-family:'DM Sans',sans-serif;font-size:.9rem;outline:none;transition:border .18s}
+.fg input:focus,.fg select:focus,.fg textarea:focus{border-color:var(--ac)}
+.fg textarea{resize:vertical;min-height:82px}
+.fg select option{background:var(--s)}
+.demo-box{background:rgba(232,52,26,.08);border:1px solid rgba(232,52,26,.25);border-radius:8px;padding:.9rem 1rem;margin-top:1rem;font-size:.8rem;color:var(--mu);line-height:1.7}
+.demo-box b{color:var(--ac2)}
+.sg{display:grid;grid-template-columns:repeat(auto-fit,minmax(185px,1fr));gap:1rem;margin-bottom:2rem}
+.sc{background:var(--s);border:1px solid var(--bd);border-radius:10px;padding:1.2rem 1.4rem;position:relative;overflow:hidden}
+.sc::before{content:'';position:absolute;top:0;left:0;width:4px;height:100%}
+.sc.r::before{background:var(--ac)}.sc.w::before{background:var(--wn)}.sc.g::before{background:var(--ok)}.sc.b::before{background:var(--inf)}.sc.p::before{background:#a855f7}
+.sc .lb{font-size:.72rem;color:var(--mu);text-transform:uppercase;letter-spacing:.06em}
+.sc .vl{font-family:'Bebas Neue',sans-serif;font-size:2.6rem;line-height:1.05}
+.sc .sub{font-size:.72rem;color:var(--mu)}
+.tw{background:var(--s);border:1px solid var(--bd);border-radius:10px;overflow:hidden;margin-bottom:1.5rem}
+.twh{padding:.9rem 1.25rem;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--bd)}
+.twh h3{font-size:.94rem;font-weight:600}
+table{width:100%;border-collapse:collapse}
+th{background:var(--bg);padding:.65rem 1rem;text-align:left;font-size:.7rem;color:var(--mu);text-transform:uppercase;letter-spacing:.06em;font-weight:500}
+td{padding:.78rem 1rem;border-top:1px solid var(--bd);font-size:.84rem;vertical-align:middle}
+tr:hover td{background:rgba(255,255,255,.015)}
+.badge{display:inline-flex;align-items:center;padding:.18rem .6rem;border-radius:999px;font-size:.7rem;font-weight:600}
+.br{background:rgba(239,68,68,.14);color:#f87171}
+.bw{background:rgba(245,166,35,.14);color:var(--wn)}
+.bg2{background:rgba(34,197,94,.14);color:var(--ok)}
+.bb{background:rgba(56,189,248,.14);color:var(--inf)}
+.bm{background:rgba(107,115,133,.14);color:var(--mu)}
+.bp2{background:rgba(168,85,247,.14);color:#c084fc}
+.ac2{background:rgba(232,52,26,.07);border:1px solid rgba(232,52,26,.28);border-radius:9px;padding:.9rem 1.1rem;display:flex;gap:.8rem;margin-bottom:.7rem}
+.ac2 .ico{font-size:1.3rem;flex-shrink:0}
+.st{font-family:'Bebas Neue',sans-serif;font-size:1.65rem;letter-spacing:.09em;margin-bottom:1.25rem;display:flex;align-items:center;gap:.8rem}
+.st::after{content:'';flex:1;height:1px;background:linear-gradient(90deg,var(--bd),transparent)}
+.card{background:var(--s);border:1px solid var(--bd);border-radius:10px;padding:1.4rem;margin-bottom:1.5rem}
+.card h3{font-size:.93rem;font-weight:600;margin-bottom:1rem;padding-bottom:.7rem;border-bottom:1px solid var(--bd);display:flex;justify-content:space-between;align-items:center}
+.dg{display:grid;grid-template-columns:2fr 1fr;gap:1.5rem}
+@media(max-width:880px){.dg{grid-template-columns:1fr}}
+.tc{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem}
+@media(max-width:680px){.tc{grid-template-columns:1fr}}
+.mbox{background:var(--s2);border:1px solid var(--bd);border-radius:9px;height:260px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.7rem;position:relative;overflow:hidden}
+.mgrid{position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px);background-size:38px 38px}
+.mpins{position:relative;display:flex;gap:2.5rem}
+.mp{font-size:1.8rem;animation:mpb .9s infinite alternate;filter:drop-shadow(0 0 8px var(--ac))}
+.mp:nth-child(2){animation-delay:.4s;filter:drop-shadow(0 0 8px var(--wn))}
+@keyframes mpb{0%{transform:translateY(0)}100%{transform:translateY(-9px)}}
+.mleg{position:relative;display:flex;gap:1.2rem;font-size:.73rem;color:var(--mu)}
+.empty{text-align:center;padding:2.5rem 1rem;color:var(--mu);font-size:.88rem}
+.eico{font-size:2.2rem;margin-bottom:.4rem}
+.rb{height:5px;background:var(--bd);border-radius:3px;margin-top:.3rem;overflow:hidden}
+.rf{height:100%;border-radius:3px;background:var(--ok)}
+.rf.w{background:var(--wn)}.rf.d{background:var(--ac)}
+.mo{display:none;position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:200;align-items:center;justify-content:center;padding:1rem}
+.mo.show{display:flex}
+.md{background:var(--s);border:1px solid var(--bd);border-radius:12px;padding:1.8rem;width:480px;max-width:100%;max-height:90vh;overflow-y:auto}
+.md h3{font-size:1.05rem;font-weight:600;margin-bottom:1.4rem}
+.mdf{display:flex;gap:.75rem;justify-content:flex-end;margin-top:1.4rem;padding-top:1rem;border-top:1px solid var(--bd)}
+#toast{position:fixed;bottom:1.5rem;right:1.5rem;z-index:400;display:flex;flex-direction:column;gap:.45rem;pointer-events:none}
+.ti{background:var(--s2);border:1px solid var(--bd);border-radius:8px;padding:.7rem 1.1rem;font-size:.85rem;min-width:240px;animation:tsi .25s ease}
+.ti.s{border-left:3px solid var(--ok)}.ti.e{border-left:3px solid var(--ac)}.ti.w{border-left:3px solid var(--wn)}
+@keyframes tsi{from{opacity:0;transform:translateX(14px)}to{opacity:1;transform:translateX(0)}}
+.hs{background:linear-gradient(135deg,rgba(232,52,26,.14),rgba(255,107,53,.07));border:1px solid rgba(232,52,26,.22);border-radius:10px;padding:1.1rem 1.4rem;margin-bottom:1.5rem;display:flex;align-items:center;gap:1rem;flex-wrap:wrap}
+.hs h4{font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:.08em;color:var(--ac2)}
+.hs p{font-size:.81rem;color:var(--mu)}
+::-webkit-scrollbar{width:4px}::-webkit-scrollbar-track{background:var(--bg)}::-webkit-scrollbar-thumb{background:var(--bd);border-radius:3px}
+</style>
+</head>
+<body>
+
+<div id="tk"><div id="tki">🚨 ACTIVE ALERT: Flood warning — Haridwar Ghat &nbsp;&nbsp;&nbsp; ⚡ NDRF teams mobilised &nbsp;&nbsp;&nbsp; ⚠️ Earthquake tremors reported — Rishikesh &nbsp;&nbsp;&nbsp; ✅ Relief camps operational &nbsp;&nbsp;&nbsp;</div></div>
+
+<header>
+  <div class="logo"><div class="pd"></div>RES<em>Q</em></div>
+  <div id="ubar">
+    <span id="ug" style="color:var(--mu);font-size:.8rem">Not signed in</span>
+    <button class="btn bo bs" id="lob" style="display:none" onclick="logout()">Sign Out</button>
+  </div>
+</header>
+
+<nav id="mnav" style="display:none">
+  <button class="ac" onclick="gp('dash')">📊 Dashboard</button>
+  <button onclick="gp('rep')">📝 Report Incident</button>
+  <button onclick="gp('alr')">🔔 Alerts</button>
+  <button onclick="gp('tms')">🦺 Rescue Teams</button>
+  <button onclick="gp('res')">📦 Resources</button>
+  <button id="admb" style="display:none" onclick="gp('adm')">⚙️ Admin Panel</button>
+</nav>
+
+<main>
+
+<!-- AUTH -->
+<div id="ap" class="pg on">
+  <div class="abox">
+    <h2>ResQ Platform</h2>
+    <p>Disaster Management &amp; Emergency Response System</p>
+    <div class="tsw">
+      <button class="ac" onclick="swauth(0)">Login</button>
+      <button onclick="swauth(1)">Register</button>
+    </div>
+    <div id="lf">
+      <div class="fg"><label>Username / ID</label><input id="lu" placeholder="admin  or  ravi"/></div>
+      <div class="fg"><label>Password</label><input id="lp" type="password" placeholder="password"/></div>
+      <button class="btn bp" style="width:100%;padding:.7rem;margin-top:.25rem" onclick="doLogin()">Sign In →</button>
+      <div class="demo-box">
+        <b>Quick Demo Login:</b><br>
+        Admin → username: <b>admin</b> &nbsp; password: <b>admin</b><br>
+        Citizen → username: <b>ravi</b> &nbsp; password: <b>1234</b>
+      </div>
+    </div>
+    <div id="rf" style="display:none">
+      <div class="fg"><label>Full Name</label><input id="rn" placeholder="Your full name"/></div>
+      <div class="fg"><label>Username</label><input id="ru" placeholder="Choose a username"/></div>
+      <div class="fg"><label>Mobile</label><input id="rph" placeholder="10-digit number"/></div>
+      <div class="fg"><label>Password</label><input id="rpw" type="password" placeholder="Min 4 characters"/></div>
+      <button class="btn bp" style="width:100%;padding:.7rem" onclick="doReg()">Create Account →</button>
+    </div>
+  </div>
+</div>
+
+<!-- DASHBOARD -->
+<div id="dash-page" class="pg">
+  <div class="st">Live Dashboard</div>
+  <div class="hs"><div>🌊</div><div><h4>Active Disaster Zone</h4><p>Flood situation in Haridwar — Multiple NDRF teams deployed. Citizens advised to stay away from riverbanks.</p></div></div>
+  <div class="sg">
+    <div class="sc p"><div class="lb">Registered Users</div><div class="vl" id="s0">0</div></div>
+    <div class="sc r"><div class="lb">Active Reports</div><div class="vl" id="s1">0</div><div class="sub" id="s1b"></div></div>
+    <div class="sc w"><div class="lb">Live Alerts</div><div class="vl" id="s2">0</div></div>
+    <div class="sc g"><div class="lb">Teams Deployed</div><div class="vl" id="s3">0</div><div class="sub" id="s3b"></div></div>
+    <div class="sc b"><div class="lb">Resources Tracked</div><div class="vl" id="s4">0</div></div>
+  </div>
+  <div class="dg">
+    <div>
+      <div class="card"><h3>Recent Incident Reports</h3><div id="dr"></div></div>
+      <div class="card">
+        <h3>Incident Map <span style="font-weight:400;font-size:.73rem;color:var(--mu)">(Illustrative)</span></h3>
+        <div class="mbox"><div class="mgrid"></div><div class="mpins"><div class="mp">📍</div><div class="mp">📍</div></div><div class="mleg"><span>🔴 Haridwar — Flood</span><span>🟡 Rishikesh — Quake</span></div></div>
+      </div>
+    </div>
+    <div>
+      <div class="card"><h3>Live Alerts</h3><div id="da"></div></div>
+      <div class="card"><h3>Team Status</h3><div id="dt"></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- REPORT -->
+<div id="rep-page" class="pg">
+  <div class="st">Report an Incident</div>
+  <div style="max-width:580px">
+    <div class="card">
+      <h3>Submit New Report</h3>
+      <div class="fg"><label>Disaster Type</label><select id="rtype"><option>Flood</option><option>Earthquake</option><option>Fire</option><option>Landslide</option><option>Cyclone</option><option>Other</option></select></div>
+      <div class="fg"><label>Severity</label><select id="rsev"><option>Low</option><option>Medium</option><option selected>High</option><option>Critical</option></select></div>
+      <div class="fg"><label>Location / Landmark</label><input id="rloc" placeholder="e.g. Haridwar Ghat, near temple"/></div>
+      <div class="fg"><label>Description</label><textarea id="rdesc" placeholder="Describe the emergency situation in detail…"></textarea></div>
+      <button class="btn bp" onclick="subRep()">📤 Submit Report</button>
+    </div>
+    <div class="card"><h3>My Submitted Reports</h3><div id="myrep"></div></div>
+  </div>
+</div>
+
+<!-- ALERTS -->
+<div id="alr-page" class="pg">
+  <div class="st">Emergency Alerts</div>
+  <div id="alrl" style="max-width:800px"></div>
+</div>
+
+<!-- TEAMS -->
+<div id="tms-page" class="pg">
+  <div class="st">Rescue Teams</div>
+  <div class="tw">
+    <div class="twh"><h3>All Rescue Teams</h3><button class="btn bp bs ao" style="display:none" onclick="om('tmod')">+ Add Team</button></div>
+    <div style="overflow-x:auto">
+    <table><thead><tr><th>Team Name</th><th>Leader</th><th>Members</th><th>Specialization</th><th>Status</th><th>Location</th><th class="ao" style="display:none">Action</th></tr></thead>
+    <tbody id="tmtb"></tbody></table>
+    </div>
+  </div>
+</div>
+
+<!-- RESOURCES -->
+<div id="res-page" class="pg">
+  <div class="st">Resource Allocation</div>
+  <div class="tw">
+    <div class="twh"><h3>Resource Inventory</h3><button class="btn bp bs ao" style="display:none" onclick="om('rmod')">+ Add Resource</button></div>
+    <div style="overflow-x:auto">
+    <table><thead><tr><th>Resource</th><th>Category</th><th>Total</th><th>Available</th><th>Utilisation</th><th>Location</th><th class="ao" style="display:none">Action</th></tr></thead>
+    <tbody id="retb"></tbody></table>
+    </div>
+  </div>
+</div>
+
+<!-- ADMIN -->
+<div id="adm-page" class="pg">
+  <div class="st">Admin Control Panel</div>
+  <div class="tc">
+    <div class="card"><h3>Manage Alerts <span><button class="btn bp bs" onclick="om('amod')">+ Issue Alert</button></span></h3><div id="admal"></div></div>
+    <div class="card"><h3>Registered Users</h3><div id="admusr"></div></div>
+  </div>
+  <div class="card">
+    <h3>All Reports <span style="font-weight:400;font-size:.74rem;color:var(--mu)">Update status via dropdown</span></h3>
+    <div style="overflow-x:auto">
+    <table><thead><tr><th>ID</th><th>Type</th><th>Location</th><th>Severity</th><th>Status</th><th>Reporter</th><th>Time</th><th>Action</th></tr></thead>
+    <tbody id="admrep"></tbody></table>
+    </div>
+  </div>
+</div>
+
+</main>
+
+<!-- MODALS -->
+<div class="mo" id="tmod"><div class="md"><h3>Add Rescue Team</h3>
+  <div class="fg"><label>Team Name</label><input id="tn" placeholder="Alpha Squad"/></div>
+  <div class="fg"><label>Leader Name</label><input id="tl" placeholder="Leader's full name"/></div>
+  <div class="fg"><label>Members</label><input id="tm" type="number" placeholder="8"/></div>
+  <div class="fg"><label>Specialization</label><select id="tsp"><option>Flood Rescue</option><option>Fire Fighting</option><option>Medical Aid</option><option>Search &amp; Rescue</option><option>Evacuation</option></select></div>
+  <div class="fg"><label>Status</label><select id="tst"><option>Standby</option><option>Deployed</option><option>Off-duty</option></select></div>
+  <div class="fg"><label>Location</label><input id="tloc" placeholder="City / District"/></div>
+  <div class="mdf"><button class="btn bo" onclick="cm('tmod')">Cancel</button><button class="btn bp" onclick="addTeam()">Save Team</button></div>
+</div></div>
+
+<div class="mo" id="rmod"><div class="md"><h3>Add Resource</h3>
+  <div class="fg"><label>Resource Name</label><input id="resnm" placeholder="Inflatable Boats"/></div>
+  <div class="fg"><label>Category</label><select id="rescat"><option>Equipment</option><option>Medical</option><option>Relief</option><option>Transport</option><option>Communication</option></select></div>
+  <div class="fg"><label>Total Quantity</label><input id="resq" type="number" placeholder="100"/></div>
+  <div class="fg"><label>Available</label><input id="resa" type="number" placeholder="80"/></div>
+  <div class="fg"><label>Depot Location</label><input id="resloc" placeholder="Camp / Depot name"/></div>
+  <div class="mdf"><button class="btn bo" onclick="cm('rmod')">Cancel</button><button class="btn bp" onclick="addRes()">Save</button></div>
+</div></div>
+
+<div class="mo" id="amod"><div class="md"><h3>Issue Emergency Alert</h3>
+  <div class="fg"><label>Disaster Type</label><select id="alt"><option>Flood</option><option>Earthquake</option><option>Fire</option><option>Landslide</option><option>Other</option></select></div>
+  <div class="fg"><label>Severity Level</label><select id="als"><option>Advisory</option><option>Watch</option><option>Warning</option><option>Critical</option></select></div>
+  <div class="fg"><label>Alert Message</label><textarea id="alm" placeholder="Describe the alert and public safety instructions…"></textarea></div>
+  <div class="mdf"><button class="btn bo" onclick="cm('amod')">Cancel</button><button class="btn bp" onclick="issAl()">📢 Broadcast Alert</button></div>
+</div></div>
+
+<div id="toast"></div>
+
+<script>
+// ─── DB ───────────────────────────────────────────────────────────────────────
+var DB = {
+  users:[
+    {id:'u1',name:'Ravi Sharma',uname:'ravi',pw:'1234',role:'citizen',phone:'9876543210',joined:'2026-04-10'},
+    {id:'u2',name:'Admin User',uname:'admin',pw:'admin',role:'admin',phone:'9999999999',joined:'2026-01-01'}
+  ],
+  reports:[
+    {id:'r1',uid:'u1',who:'Ravi Sharma',type:'Flood',loc:'Haridwar Ghat',sev:'High',desc:'Water level rising rapidly. Several families stranded on rooftops.',status:'Active',ts:'2026-04-13 06:30'},
+    {id:'r2',uid:'u1',who:'Ravi Sharma',type:'Earthquake',loc:'Rishikesh Highway',sev:'Medium',desc:'Tremors felt for ~30 seconds, cracks in road visible.',status:'Resolved',ts:'2026-04-12 14:15'},
+    {id:'r3',uid:'u2',who:'Admin User',type:'Landslide',loc:'Devprayag Road',sev:'Critical',desc:'Major landslide blocking NH-7 near Devprayag. 3 vehicles trapped.',status:'Active',ts:'2026-04-13 08:00'}
+  ],
+  alerts:[
+    {id:'a1',type:'Flood',sev:'Critical',msg:'Red alert: Haridwar Ghat flooding. All residents near riverbank must evacuate immediately to Relief Camp 1.',by:'Admin User',ts:'2026-04-13 07:00'},
+    {id:'a2',type:'Landslide',sev:'Warning',msg:'Landslide risk on Devprayag-Srinagar highway. Avoid road travel until further notice.',by:'Admin User',ts:'2026-04-13 08:05'}
+  ],
+  teams:[
+    {id:'t1',name:'Alpha Rescue',leader:'Capt. R. Mehta',mem:8,spec:'Flood Rescue',status:'Deployed',loc:'Haridwar'},
+    {id:'t2',name:'Beta Medical',leader:'Dr. Priya Nair',mem:5,spec:'Medical Aid',status:'Deployed',loc:'Civil Hospital'},
+    {id:'t3',name:'Gamma Search',leader:'Lt. Arun Kumar',mem:10,spec:'Search & Rescue',status:'Standby',loc:'Rishikesh Base'},
+    {id:'t4',name:'Delta Fire',leader:'Sgt. Vijay Singh',mem:6,spec:'Fire Fighting',status:'Off-duty',loc:'Dehradun HQ'}
+  ],
+  resources:[
+    {id:'x1',name:'Inflatable Boats',cat:'Equipment',qty:12,avail:8,loc:'NDRF Depot, Haridwar'},
+    {id:'x2',name:'Life Jackets',cat:'Equipment',qty:200,avail:140,loc:'NDRF Depot, Haridwar'},
+    {id:'x3',name:'First-Aid Kits',cat:'Medical',qty:100,avail:72,loc:'Civil Hospital, Haridwar'},
+    {id:'x4',name:'Food Packets',cat:'Relief',qty:5000,avail:4100,loc:'Relief Camp 1'},
+    {id:'x5',name:'Blankets',cat:'Relief',qty:1000,avail:620,loc:'Relief Camp 2, Rishikesh'},
+    {id:'x6',name:'Satellite Phones',cat:'Communication',qty:15,avail:3,loc:'Control Room, Dehradun'}
+  ]
+};
+var cu = null;
+function uid(){return 'x'+Math.random().toString(36).slice(2,7)}
+function now(){return new Date().toISOString().slice(0,16).replace('T',' ')}
+
+// ─── Toast ────────────────────────────────────────────────────────────────────
+function toast(msg, t){
+  t = t||'s';
+  var c=document.getElementById('toast');
+  var el=document.createElement('div');
+  el.className='ti '+t;
+  el.textContent=msg;
+  c.appendChild(el);
+  setTimeout(function(){el.style.opacity='0';el.style.transition='.25s';setTimeout(function(){el.remove()},300)},3000);
+}
+
+// ─── Modal ────────────────────────────────────────────────────────────────────
+function om(id){document.getElementById(id).classList.add('show')}
+function cm(id){document.getElementById(id).classList.remove('show')}
+document.addEventListener('click',function(e){if(e.target.classList.contains('mo'))e.target.classList.remove('show')});
+
+// ─── Badges ───────────────────────────────────────────────────────────────────
+var SM={Low:'bb',Medium:'bw',High:'br',Critical:'br',Warning:'bw',Watch:'bw',Advisory:'bb'};
+var STM={Active:'br',Resolved:'bg2',Pending:'bw',Deployed:'br',Standby:'bg2','Off-duty':'bm',citizen:'bb',admin:'bp2'};
+function sb(s){return '<span class="badge '+(SM[s]||'bm')+'">'+s+'</span>'}
+function stb(s){return '<span class="badge '+(STM[s]||'bm')+'">'+s+'</span>'}
+
+// ─── Auth ─────────────────────────────────────────────────────────────────────
+function swauth(i){
+  document.getElementById('lf').style.display=i===0?'':'none';
+  document.getElementById('rf').style.display=i===1?'':'none';
+  var btns=document.querySelectorAll('.tsw button');
+  btns[0].classList.toggle('ac',i===0);
+  btns[1].classList.toggle('ac',i===1);
+}
+function doLogin(){
+  var u=document.getElementById('lu').value.trim().toLowerCase();
+  var p=document.getElementById('lp').value;
+  if(!u||!p){toast('Enter username and password','e');return;}
+  var user=null;
+  for(var i=0;i<DB.users.length;i++){
+    if(DB.users[i].uname===u && DB.users[i].pw===p){user=DB.users[i];break;}
+  }
+  if(!user){toast('Invalid username or password','e');return;}
+  cu=user;
+  afterLogin();
+}
+function doReg(){
+  var n=document.getElementById('rn').value.trim();
+  var u=document.getElementById('ru').value.trim().toLowerCase();
+  var ph=document.getElementById('rph').value.trim();
+  var pw=document.getElementById('rpw').value;
+  if(!n||!u||!pw){toast('Fill all required fields','e');return;}
+  for(var i=0;i<DB.users.length;i++){if(DB.users[i].uname===u){toast('Username already taken','e');return;}}
+  DB.users.push({id:uid(),name:n,uname:u,pw:pw,role:'citizen',phone:ph,joined:now().slice(0,10)});
+  toast('Account created! You can now log in.');
+  swauth(0);
+}
+function afterLogin(){
+  document.getElementById('ap').classList.remove('on');
+  document.getElementById('mnav').style.display='flex';
+  document.getElementById('lob').style.display='';
+  document.getElementById('ug').innerHTML='<span style="color:var(--ac2);font-weight:600">'+cu.name+'</span> <span style="color:var(--mu);font-size:.75rem">['+cu.role+']</span>';
+  if(cu.role==='admin'){
+    document.getElementById('admb').style.display='';
+    var ao=document.querySelectorAll('.ao');
+    for(var i=0;i<ao.length;i++) ao[i].style.display='';
+  }
+  gp('dash');
+}
+function logout(){
+  cu=null;
+  document.getElementById('mnav').style.display='none';
+  document.getElementById('lob').style.display='none';
+  document.getElementById('admb').style.display='none';
+  document.getElementById('ug').textContent='Not signed in';
+  var ao=document.querySelectorAll('.ao');
+  for(var i=0;i<ao.length;i++) ao[i].style.display='none';
+  var pgs=document.querySelectorAll('.pg');
+  for(var i=0;i<pgs.length;i++) pgs[i].classList.remove('on');
+  document.getElementById('ap').classList.add('on');
+}
+
+// ─── Page routing ─────────────────────────────────────────────────────────────
+var pgfn={dash:ldDash,rep:ldMyRep,alr:ldAlerts,tms:ldTeams,res:ldRes,adm:ldAdmin};
+var pgidx={dash:0,rep:1,alr:2,tms:3,res:4,adm:5};
+function gp(name){
+  var pgs=document.querySelectorAll('.pg');
+  for(var i=0;i<pgs.length;i++) pgs[i].classList.remove('on');
+  var pg=document.getElementById(name+'-page');
+  if(pg) pg.classList.add('on');
+  var btns=document.querySelectorAll('nav button');
+  for(var i=0;i<btns.length;i++) btns[i].classList.remove('ac');
+  var idx=pgidx[name];
+  if(btns[idx]) btns[idx].classList.add('ac');
+  if(pgfn[name]) pgfn[name]();
+}
+
+// ─── Dashboard ────────────────────────────────────────────────────────────────
+function ldDash(){
+  var ar=0;
+  for(var i=0;i<DB.reports.length;i++) if(DB.reports[i].status==='Active') ar++;
+  var dep=0;
+  for(var i=0;i<DB.teams.length;i++) if(DB.teams[i].status==='Deployed') dep++;
+  document.getElementById('s0').textContent=DB.users.length;
+  document.getElementById('s1').textContent=ar;
+  document.getElementById('s1b').textContent='of '+DB.reports.length+' total';
+  document.getElementById('s2').textContent=DB.alerts.length;
+  document.getElementById('s3').textContent=dep;
+  document.getElementById('s3b').textContent='of '+DB.teams.length+' teams';
+  document.getElementById('s4').textContent=DB.resources.length;
+
+  var rec=DB.reports.slice().reverse().slice(0,5);
+  var drhtml='';
+  if(rec.length===0){
+    drhtml='<div class="empty"><div class="eico">📋</div>No reports yet</div>';
+  } else {
+    drhtml='<table style="width:100%"><thead><tr><th>Type</th><th>Location</th><th>Severity</th><th>Status</th></tr></thead><tbody>';
+    for(var i=0;i<rec.length;i++){
+      drhtml+='<tr><td>'+rec[i].type+'</td><td style="color:var(--mu);font-size:.81rem">'+rec[i].loc+'</td><td>'+sb(rec[i].sev)+'</td><td>'+stb(rec[i].status)+'</td></tr>';
+    }
+    drhtml+='</tbody></table>';
+  }
+  document.getElementById('dr').innerHTML=drhtml;
+
+  var al=DB.alerts.slice().reverse().slice(0,3);
+  var dahtml='';
+  if(al.length===0){
+    dahtml='<div class="empty"><div class="eico">🔔</div>All clear</div>';
+  } else {
+    for(var i=0;i<al.length;i++){
+      dahtml+='<div class="ac2"><div class="ico">🚨</div><div><div style="font-weight:600;font-size:.87rem;margin-bottom:.15rem">'+al[i].type+' '+sb(al[i].sev)+'</div><div style="font-size:.8rem;color:var(--mu)">'+al[i].msg+'</div><div style="font-size:.7rem;color:var(--mu);margin-top:.2rem">'+al[i].ts+'</div></div></div>';
+    }
+  }
+  document.getElementById('da').innerHTML=dahtml;
+
+  var dthtml='';
+  for(var i=0;i<Math.min(4,DB.teams.length);i++){
+    var t=DB.teams[i];
+    dthtml+='<div style="display:flex;justify-content:space-between;align-items:center;padding:.5rem 0;border-bottom:1px solid var(--bd)">';
+    dthtml+='<div><div style="font-weight:500;font-size:.85rem">'+t.name+'</div><div style="font-size:.74rem;color:var(--mu)">'+t.spec+' · '+t.loc+'</div></div>';
+    dthtml+=stb(t.status)+'</div>';
+  }
+  document.getElementById('dt').innerHTML=dthtml||'<div class="empty"><div class="eico">🦺</div>No teams</div>';
+}
+
+// ─── Reports ─────────────────────────────────────────────────────────────────
+function subRep(){
+  if(!cu){toast('Please login first','e');return;}
+  var loc=document.getElementById('rloc').value.trim();
+  var desc=document.getElementById('rdesc').value.trim();
+  if(!loc||!desc){toast('Fill in location and description','e');return;}
+  DB.reports.push({id:uid(),uid:cu.id,who:cu.name,type:document.getElementById('rtype').value,
+    sev:document.getElementById('rsev').value,loc:loc,desc:desc,status:'Active',ts:now()});
+  toast('Report submitted successfully!');
+  document.getElementById('rloc').value='';
+  document.getElementById('rdesc').value='';
+  ldMyRep();
+}
+function ldMyRep(){
+  if(!cu) return;
+  var mine=[];
+  for(var i=0;i<DB.reports.length;i++){
+    if(DB.reports[i].uid===cu.id||cu.role==='admin') mine.push(DB.reports[i]);
+  }
+  mine.reverse();
+  var html='';
+  if(mine.length===0){
+    html='<div class="empty"><div class="eico">📝</div>No reports yet</div>';
+  } else {
+    html='<table style="width:100%"><thead><tr><th>Type</th><th>Location</th><th>Sev.</th><th>Status</th><th>Time</th></tr></thead><tbody>';
+    for(var i=0;i<mine.length;i++){
+      html+='<tr><td>'+mine[i].type+'</td><td style="font-size:.8rem">'+mine[i].loc+'</td><td>'+sb(mine[i].sev)+'</td><td>'+stb(mine[i].status)+'</td><td style="font-size:.71rem;color:var(--mu)">'+mine[i].ts+'</td></tr>';
+    }
+    html+='</tbody></table>';
+  }
+  document.getElementById('myrep').innerHTML=html;
+}
+
+// ─── Alerts ───────────────────────────────────────────────────────────────────
+function ldAlerts(){
+  var al=DB.alerts.slice().reverse();
+  var html='';
+  if(al.length===0){
+    html='<div class="empty" style="background:var(--s);border-radius:10px"><div class="eico">🔔</div>No active alerts</div>';
+  } else {
+    for(var i=0;i<al.length;i++){
+      html+='<div class="ac2" style="margin-bottom:.75rem">';
+      html+='<div class="ico">🚨</div><div style="flex:1">';
+      html+='<div style="font-weight:600;margin-bottom:.2rem">'+al[i].type+' '+sb(al[i].sev)+'</div>';
+      html+='<div style="font-size:.83rem">'+al[i].msg+'</div>';
+      html+='<div style="font-size:.71rem;color:var(--mu);margin-top:.3rem">Issued by '+al[i].by+' · '+al[i].ts+'</div>';
+      html+='</div></div>';
+    }
+  }
+  document.getElementById('alrl').innerHTML=html;
+}
+
+// ─── Teams ────────────────────────────────────────────────────────────────────
+function ldTeams(){
+  var isA=cu&&cu.role==='admin';
+  var html='';
+  if(DB.teams.length===0){
+    html='<tr><td colspan="7"><div class="empty"><div class="eico">🦺</div>No teams added</div></td></tr>';
+  } else {
+    for(var i=0;i<DB.teams.length;i++){
+      var t=DB.teams[i];
+      html+='<tr><td><b>'+t.name+'</b></td><td>'+t.leader+'</td><td>'+t.mem+'</td><td>'+t.spec+'</td><td>'+stb(t.status)+'</td><td>'+t.loc+'</td>';
+      if(isA) html+='<td><button class="btn bd2 bs" onclick="delTeam(\''+t.id+'\')">Remove</button></td>';
+      html+='</tr>';
+    }
+  }
+  document.getElementById('tmtb').innerHTML=html;
+}
+function addTeam(){
+  var nm=document.getElementById('tn').value.trim();
+  if(!nm){toast('Enter team name','e');return;}
+  DB.teams.push({id:uid(),name:nm,leader:document.getElementById('tl').value,
+    mem:parseInt(document.getElementById('tm').value)||0,
+    spec:document.getElementById('tsp').value,
+    status:document.getElementById('tst').value,
+    loc:document.getElementById('tloc').value});
+  cm('tmod');toast('Team added!');ldTeams();
+}
+function delTeam(id){
+  if(!confirm('Remove this team?')) return;
+  DB.teams=DB.teams.filter(function(t){return t.id!==id});
+  toast('Team removed','w');ldTeams();
+}
+
+// ─── Resources ────────────────────────────────────────────────────────────────
+function ldRes(){
+  var isA=cu&&cu.role==='admin';
+  var html='';
+  if(DB.resources.length===0){
+    html='<tr><td colspan="7"><div class="empty"><div class="eico">📦</div>No resources</div></td></tr>';
+  } else {
+    for(var i=0;i<DB.resources.length;i++){
+      var r=DB.resources[i];
+      var p=r.qty>0?Math.round((r.avail/r.qty)*100):0;
+      var cls=p<20?'d':p<50?'w':'';
+      html+='<tr><td><b>'+r.name+'</b></td><td>'+r.cat+'</td><td>'+r.qty+'</td><td>'+r.avail+'</td>';
+      html+='<td><div style="min-width:90px">'+p+'%<div class="rb"><div class="rf '+cls+'" style="width:'+p+'%"></div></div></div></td>';
+      html+='<td style="font-size:.79rem;color:var(--mu)">'+r.loc+'</td>';
+      if(isA) html+='<td><button class="btn bd2 bs" onclick="delRes(\''+r.id+'\')">Remove</button></td>';
+      html+='</tr>';
+    }
+  }
+  document.getElementById('retb').innerHTML=html;
+}
+function addRes(){
+  var nm=document.getElementById('resnm').value.trim();
+  if(!nm){toast('Enter resource name','e');return;}
+  DB.resources.push({id:uid(),name:nm,cat:document.getElementById('rescat').value,
+    qty:parseInt(document.getElementById('resq').value)||0,
+    avail:parseInt(document.getElementById('resa').value)||0,
+    loc:document.getElementById('resloc').value});
+  cm('rmod');toast('Resource added!');ldRes();
+}
+function delRes(id){
+  if(!confirm('Remove this resource?')) return;
+  DB.resources=DB.resources.filter(function(r){return r.id!==id});
+  toast('Resource removed','w');ldRes();
+}
+
+// ─── Admin ────────────────────────────────────────────────────────────────────
+function ldAdmin(){
+  if(!cu||cu.role!=='admin'){gp('dash');return;}
+
+  var alhtml='';
+  if(DB.alerts.length===0){
+    alhtml='<div class="empty"><div class="eico">🔔</div>No alerts issued</div>';
+  } else {
+    var al=DB.alerts.slice().reverse();
+    for(var i=0;i<al.length;i++){
+      alhtml+='<div style="border:1px solid var(--bd);border-radius:7px;padding:.75rem;margin-bottom:.5rem;display:flex;gap:.75rem;align-items:flex-start">';
+      alhtml+='<div style="flex:1"><div style="font-weight:600;font-size:.85rem">'+al[i].type+' '+sb(al[i].sev)+'</div>';
+      alhtml+='<div style="font-size:.77rem;color:var(--mu);margin-top:.15rem">'+al[i].msg+'</div></div>';
+      alhtml+='<button class="btn bd2 bs" onclick="delAl(\''+al[i].id+'\')">✕</button></div>';
+    }
+  }
+  document.getElementById('admal').innerHTML=alhtml;
+
+  var uhtml='<table style="width:100%"><thead><tr><th>Name</th><th>Username</th><th>Role</th><th>Joined</th></tr></thead><tbody>';
+  for(var i=0;i<DB.users.length;i++){
+    var u=DB.users[i];
+    uhtml+='<tr><td>'+u.name+'</td><td style="font-size:.78rem;color:var(--mu)">'+u.uname+'</td><td>'+stb(u.role)+'</td><td style="font-size:.71rem;color:var(--mu)">'+u.joined+'</td></tr>';
+  }
+  uhtml+='</tbody></table>';
+  document.getElementById('admusr').innerHTML=uhtml;
+
+  var rhtml='';
+  if(DB.reports.length===0){
+    rhtml='<tr><td colspan="8"><div class="empty">No reports</div></td></tr>';
+  } else {
+    var rpts=DB.reports.slice().reverse();
+    for(var i=0;i<rpts.length;i++){
+      var r=rpts[i];
+      rhtml+='<tr>';
+      rhtml+='<td style="font-family:JetBrains Mono,monospace;font-size:.7rem;color:var(--mu)">'+r.id+'</td>';
+      rhtml+='<td>'+r.type+'</td>';
+      rhtml+='<td style="font-size:.8rem">'+r.loc+'</td>';
+      rhtml+='<td>'+sb(r.sev)+'</td>';
+      rhtml+='<td><select style="background:var(--bg);border:1px solid var(--bd);border-radius:4px;color:var(--tx);padding:.18rem .35rem;font-size:.78rem" onchange="upSt(\''+r.id+'\',this.value)">';
+      var opts=['Active','Resolved','Pending'];
+      for(var j=0;j<opts.length;j++) rhtml+='<option'+(opts[j]===r.status?' selected':'')+'>'+opts[j]+'</option>';
+      rhtml+='</select></td>';
+      rhtml+='<td style="font-size:.78rem;color:var(--mu)">'+r.who+'</td>';
+      rhtml+='<td style="font-size:.71rem;color:var(--mu)">'+r.ts+'</td>';
+      rhtml+='<td><button class="btn bd2 bs" onclick="delRep(\''+r.id+'\')">Del</button></td>';
+      rhtml+='</tr>';
+    }
+  }
+  document.getElementById('admrep').innerHTML=rhtml;
+}
+function issAl(){
+  var msg=document.getElementById('alm').value.trim();
+  if(!msg){toast('Enter alert message','e');return;}
+  DB.alerts.push({id:uid(),type:document.getElementById('alt').value,sev:document.getElementById('als').value,
+    msg:msg,by:cu.name,ts:now()});
+  cm('amod');document.getElementById('alm').value='';toast('Alert broadcast!');ldAdmin();
+}
+function delAl(id){
+  DB.alerts=DB.alerts.filter(function(a){return a.id!==id});
+  toast('Alert removed','w');ldAdmin();
+}
+function upSt(id,st){
+  for(var i=0;i<DB.reports.length;i++) if(DB.reports[i].id===id){DB.reports[i].status=st;break;}
+  toast('Status updated to '+st);
+}
+function delRep(id){
+  if(!confirm('Delete this report?')) return;
+  DB.reports=DB.reports.filter(function(r){return r.id!==id});
+  toast('Report deleted','w');ldAdmin();
+}
+</script>
+</body>
+</html>

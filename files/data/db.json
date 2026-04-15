@@ -1,0 +1,100 @@
+{
+  "users": [
+    {
+      "id": "u1",
+      "name": "Ravi Sharma",
+      "email": "ravi@demo.com",
+      "password": "1234",
+      "role": "citizen",
+      "phone": "9876543210",
+      "registered": "2026-04-13 19:19:12"
+    },
+    {
+      "id": "u2",
+      "name": "Admin",
+      "email": "admin@demo.com",
+      "password": "admin",
+      "role": "admin",
+      "phone": "9999999999",
+      "registered": "2026-04-13 19:19:12"
+    }
+  ],
+  "reports": [
+    {
+      "id": "r1",
+      "user_id": "u1",
+      "type": "Flood",
+      "location": "Haridwar Ghat",
+      "severity": "High",
+      "description": "Water level rising rapidly near the Ghat area.",
+      "status": "Active",
+      "timestamp": "2026-04-13 19:19:12"
+    },
+    {
+      "id": "r2",
+      "user_id": "u1",
+      "type": "Earthquake",
+      "location": "Rishikesh",
+      "severity": "Medium",
+      "description": "Tremors felt for ~30 seconds.",
+      "status": "Resolved",
+      "timestamp": "2026-04-13 19:19:12"
+    }
+  ],
+  "alerts": [
+    {
+      "id": "a1",
+      "type": "Flood",
+      "message": "Red alert: Haridwar Ghat flooding \u2014 evacuate immediately.",
+      "severity": "Critical",
+      "issued_by": "Admin",
+      "timestamp": "2026-04-13 19:19:12"
+    }
+  ],
+  "teams": [
+    {
+      "id": "t1",
+      "name": "Alpha Rescue",
+      "leader": "Capt. Mehta",
+      "members": 8,
+      "specialization": "Flood Rescue",
+      "status": "Deployed",
+      "location": "Haridwar"
+    },
+    {
+      "id": "t2",
+      "name": "Beta Medical",
+      "leader": "Dr. Priya",
+      "members": 5,
+      "specialization": "Medical Aid",
+      "status": "Standby",
+      "location": "Rishikesh"
+    }
+  ],
+  "resources": [
+    {
+      "id": "res1",
+      "name": "Inflatable Boats",
+      "category": "Equipment",
+      "quantity": 12,
+      "available": 8,
+      "location": "NDRF Depot, Haridwar"
+    },
+    {
+      "id": "res2",
+      "name": "Medical Kits",
+      "category": "Medical",
+      "quantity": 100,
+      "available": 75,
+      "location": "Civil Hospital"
+    },
+    {
+      "id": "res3",
+      "name": "Food Packets",
+      "category": "Relief",
+      "quantity": 5000,
+      "available": 4200,
+      "location": "Relief Camp 1"
+    }
+  ]
+}
